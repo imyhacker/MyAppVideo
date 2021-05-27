@@ -17,8 +17,10 @@ class CreateYtsTable extends Migration
             $table->id();
             $table->string('title');
             $table->longText('tag');
+            $table->longText('viewCount');
             $table->longText('description');
             $table->longText('publishedAt');
+            $table->longText('thumbnails');
             $table->longText('likeCount');
             $table->longText('dislikeCount');
             $table->longText('commentCount');

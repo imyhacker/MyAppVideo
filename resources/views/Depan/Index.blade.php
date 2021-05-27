@@ -133,25 +133,30 @@
         </div>
 
         <div class="row">
+        @foreach($data as $yt)
           <div class="col-lg-4 col-6">
             <div class="post-entry">
               <a href="#" class="thumb">
-                <span class="date">tanggal</span>
-                <img src="#" alt="Image" class="img-fluid" style="border-radius:5px">
+                <span class="date">{{ \Carbon\Carbon::parse($yt->publishedAt)->diffForHumans() }}
+</span>
+                <img src="{{ $yt->thumbnails }}" alt="Image" class="img-fluid" style="border-radius:5px">
               </a>
               <div class="post-meta text-center">
                 <a href="">
-                  <span class="icon-user"></span>
-                  <span>Admin</span>
+                  <span class="icon-eye"></span>
+                  <span>
+                  {{ \PHPHumanizer\NumberHumanizer::metricSuffix($yt->viewCount) }}
+                  </span>
                 </a>
                 <a href="#">
                   <span class="icon-thumbs-up"></span>
-                  <span>LIKE</span>
+                  <span>{{ $yt->likeCount }}</span>
                 </a>
               </div>
               <h3><a href="#">JUDUL</a></h3>
             </div>
           </div>
+        @endforeach
         </div>
       </div>
     </div>

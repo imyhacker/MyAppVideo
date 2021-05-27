@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Yt;
 use App\Models\Tag;
 use Illuminate\Http\Request;
 use Alaouy\Youtube\Facades\Youtube;
@@ -39,13 +40,28 @@ class HomeController extends Controller
 
         $video = Youtube::getVideoInfo($youtube_id);
         
-        $data = Yt::create([
-            'title' => $video->snippet->title,
-            'description' => $video->snippet->description,
-            'tag' => $tag,
-            'publishedAt' => $video->snippet->publishedAt,
-            'likeCount' => $video->
-        ])
+        $cek = Yt::where('id_youtube', $youtube_id)->first();
+
+        if (!$cek) {
+            $data = Yt::create([
+                'title' => $video->snippet->title,
+                'description' => $video->snippet->description,
+                'tag' => $tag,  
+                'publishedAt' => $video->snippet->publishedAt,
+                'viewCount' => $video->statistics->viewCount,
+                'likeCount' => $video->statistics->likeCount,
+                'dislikeCount' => $video->statistics->dislikeCount,
+                'commentCount' => $video->statistics->commentCount,
+                'thumbnails' => $video->snippet->thumbnails->medium->url,
+                'id_youtube' => $youtube_id
+            ]);
+            return redirect()->back()->with('sukses', 'Success Add Newest Videos');
+        }elseif($cek){
+            return redirect()->back()->with('gagal', 'Failed Add Videos Because This Video Already Exists');
+
+        }
+
+       
     }
 
     public function insertTag(Request $request)
